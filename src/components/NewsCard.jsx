@@ -1,13 +1,9 @@
 import { FaShareAlt, FaRegEye } from "react-icons/fa";
 import { AiFillStar } from "react-icons/ai";
 import { Link } from "react-router-dom";
-import { useContext } from "react";
-import { AuthContext } from "../provider/AuthProvider";
 
 const NewsCard = (props = {}) => {
   const { news } = props || {};
-
-  const { user } = useContext(AuthContext);
 
   return (
     <div className=" p-4 bg-white rounded-lg shadow-md">

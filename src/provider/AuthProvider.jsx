@@ -5,6 +5,7 @@ import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
   signOut,
+  updateProfile,
 } from "firebase/auth";
 import { auth } from "../firebase/firebase.config";
 // eslint-disable-next-line react-refresh/only-export-components
@@ -14,7 +15,7 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  console.log(loading, user);
+  // console.log(loading, user);
 
   // create user
   const createUser = (email, password) => {
@@ -35,6 +36,11 @@ const AuthProvider = ({ children }) => {
     return signOut(auth);
   };
 
+  // update user
+  const updateUserProfile = (profileDetails) => {
+    return updateProfile(auth.currentUser, profileDetails);
+  };
+
   useEffect(() => {
     const unSub = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
@@ -53,6 +59,7 @@ const AuthProvider = ({ children }) => {
     signInUser,
     signOutUser,
     loading,
+    updateUserProfile,
   };
   return (
     <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>

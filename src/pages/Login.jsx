@@ -1,10 +1,31 @@
-import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../provider/AuthProvider";
 
 const Login = () => {
+  const { signInUser, setUser } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const handleLogin = (e) => {
+    e.preventDefault();
+    const form = new FormData(e.target);
+    const email = form.get("email");
+    const password = form.get("password");
+    console.log(email, password);
+    signInUser(email, password)
+      .then((result) => {
+        const user = result.user;
+        setUser(user);
+        console.log(user);
+        navigate("/");
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
   return (
     <div className="card bg-base-100 w-full max-w-lg rounded-none p-8">
       <h2 className="text-xl text-center font-bold p-4">Login Your Account</h2>
-      <form className="card-body">
+      <form className="card-body" onSubmit={handleLogin}>
         <div className="form-control">
           <label className="label">
             <span className="label-text">Email</span>
@@ -12,6 +33,7 @@ const Login = () => {
           <input
             type="email"
             placeholder="email"
+            name="email"
             className="input input-bordered rounded-none bg-gray-100"
             required
           />
@@ -22,6 +44,7 @@ const Login = () => {
           </label>
           <input
             type="password"
+            name="password"
             placeholder="password"
             className="input input-bordered rounded-none bg-gray-100"
             required
